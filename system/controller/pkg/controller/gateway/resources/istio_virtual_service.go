@@ -20,6 +20,7 @@ package resources
 
 import (
 	"fmt"
+
 	"github.com/wso2/product-vick/system/controller/pkg/apis/istio/networking/v1alpha3"
 	"github.com/wso2/product-vick/system/controller/pkg/apis/vick/v1alpha1"
 	"github.com/wso2/product-vick/system/controller/pkg/controller"
@@ -80,7 +81,7 @@ func CreateIstioVirtualServiceForIngress(gateway *v1alpha1.Gateway) *v1alpha3.Vi
 				Match: []*v1alpha3.HTTPMatchRequest{
 					{
 						Uri: &v1alpha3.StringMatch{
-							Prefix: fmt.Sprintf("/%s/", apiRoute.Context),
+							Prefix: fmt.Sprintf("/%s/%s/", metav1.GetControllerOf(gateway).Name, apiRoute.Context),
 						},
 					},
 				},
@@ -90,6 +91,9 @@ func CreateIstioVirtualServiceForIngress(gateway *v1alpha1.Gateway) *v1alpha3.Vi
 							Host: gateway.Status.HostName,
 						},
 					},
+				},
+				Rewrite: &v1alpha3.HTTPRewrite{
+					Uri: fmt.Sprintf("/%s/", apiRoute.Context),
 				},
 			})
 		}
@@ -111,4 +115,3 @@ func CreateIstioVirtualServiceForIngress(gateway *v1alpha1.Gateway) *v1alpha3.Vi
 		},
 	}
 }
-
