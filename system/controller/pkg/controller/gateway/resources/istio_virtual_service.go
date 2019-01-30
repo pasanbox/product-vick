@@ -20,7 +20,6 @@ package resources
 
 import (
 	"fmt"
-
 	"github.com/wso2/product-vick/system/controller/pkg/apis/istio/networking/v1alpha3"
 	"github.com/wso2/product-vick/system/controller/pkg/apis/vick/v1alpha1"
 	"github.com/wso2/product-vick/system/controller/pkg/controller"
